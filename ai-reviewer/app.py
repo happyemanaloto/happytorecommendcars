@@ -4,6 +4,10 @@ from openai import OpenAI
 import streamlit as st
 import base64
 
+BASE_DIR = os.path.dirname(__file__)
+
+# --- Background image (now relative to the app folder) ---
+background_path = os.path.join(BASE_DIR, "Background.jpg")
 # --- Background Setup ---
 def set_background(image_path):
     if os.path.exists(image_path):
@@ -43,14 +47,29 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
-background_path = r"C:/Users/happy/Documents/ironhack/RoboReview/ai-reviewer/Background.jpg"
-set_background(background_path)
+# background_path = r"C:/Users/happy/Documents/ironhack/RoboReview/ai-reviewer/Background.jpg"
+# set_background(background_path)
+# --- Compute the folder where this app.py lives ---
+
 
 # DATA_CSV = r"C:/Users/happy/Documents/ironhack/RoboReview/ai-reviewer/data/enriched_with_clusters_deployment.csv"
 # --- Load deployment data ---
-DATA_CSV = r"C:/Users/happy/Documents/ironhack/RoboReview/ai-reviewer/happytorecommendcars/ai-reviewer/data/enriched_with_clusters_deployment.csv"
+# DATA_CSV = r"C:/Users/happy/Documents/ironhack/RoboReview/ai-reviewer/happytorecommendcars/ai-reviewer/data/enriched_with_clusters_deployment.csv"
 
+# df = pd.read_csv(DATA_CSV)
+
+
+# --- Build a path to data/enriched_with_clusters_deployment.csv under that same folder ---
+DATA_CSV = os.path.join(BASE_DIR, "data", "enriched_with_clusters_deployment.csv")
+
+# --- Guard for missing file with a Streamlit error instead of a Python traceback ---
+if not os.path.isfile(DATA_CSV):
+    st.error(f"Data file not found at {DATA_CSV!r}")
+    st.stop()
+
+# --- Now load it ---
 df = pd.read_csv(DATA_CSV)
+
 
 # Verify required columns
 required = ['make','model','assigned_topic','make_cluster_perc','assigned_topic_cluster_perc',
