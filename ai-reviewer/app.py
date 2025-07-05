@@ -1,6 +1,5 @@
 import os
 import pandas as pd
-import mlflow
 from openai import OpenAI
 import streamlit as st
 import base64
