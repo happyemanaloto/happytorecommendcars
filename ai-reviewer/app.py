@@ -48,7 +48,7 @@ st.markdown(
     unsafe_allow_html=True
 )
 # background_path = r"C:/Users/happy/Documents/ironhack/RoboReview/ai-reviewer/Background.jpg"
-# set_background(background_path)
+set_background(background_path)
 # --- Compute the folder where this app.py lives ---
 
 
